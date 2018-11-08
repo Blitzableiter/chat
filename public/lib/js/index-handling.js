@@ -13,7 +13,7 @@ $(function() {
   });
   $("form").submit(function() {
     socket.emit("chat message", $("#m").val(), $("#username").val());
-    $("#m").val("");
+    if ($("#username").val()) $("#m").val("");
     return false;
   });
   socket.on("chat message", function(msg, usr) {
