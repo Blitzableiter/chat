@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 13px Helvetica, Arial;
+}
+
+form.textboxForm {
+  background: #8cce31;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+form.textboxForm input {
+  border: 0;
+  padding: 10px;
+  width: 100%;
+  /* margin-right: .5%; */
+}
+
+form.textboxForm button {
+  /* width: 9%; */
+  /* background: #82e0ff; */
+  /* border: none; */
+  /* padding: 10px; */
+  display: none;
+}
+
+.liMessage {
+  color: black;
+}
+
+.liMessage:nth-child(odd) {
+  color: #3e6b00;
+}
+
+.header {
+  padding: 5px;
+  background-color: #8cce31;
+  border-bottom: solid black 2px;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messages li {
+  padding: 5px 10px;
+  background: #a8e259;
+}
+
+#messages li:nth-child(odd) {
+  background: white;
+}
+
+#messdiv {
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 50px;
+  /* height: 100px; */
+}
+
+#usernameErr {
+  color: #861345;
+}

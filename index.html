@@ -1,100 +1,69 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Dat Chat Tho</title>
+    <link href="/public/lib/css/styles.css" type="text/css" rel="stylesheet" />
+  </head>
 
-<head>
-  <title>Dat Chat Tho</title>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font: 13px Helvetica, Arial;
-    }
-
-    form {
-      background: #000;
-      padding: 3px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    form input {
-      border: 0;
-      padding: 10px;
-      width: 100%;
-      /* margin-right: .5%; */
-    }
-
-    form button {
-      /* width: 9%; */
-      /* background: rgb(130, 224, 255); */
-      /* border: none; */
-      /* padding: 10px; */
-      display: none;
-    }
-
-    #messages {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    #messages li {
-      padding: 5px 10px;
-    }
-
-    #messages li:nth-child(odd) {
-      background: #eee;
-    }
-
-    #messdiv {
-      overflow: auto;
-      width: 100%;
-      margin-bottom: 50px;
-      /* height: 100px; */
-    }
-  </style>
-</head>
-
-<body>
-  <input id="username" autocomplete="off" placeholder="Username" />
-  <div id="messdiv">
-    <ul id="messages">
-      <li id="firstMessage">Welcome!</li>
-    </ul>
-  </div>
-  <form action="">
-    <input id="m" autocomplete="off" /><button id="sendButton">Send</button>
-  </form>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-  <script>
-    $(function () {
-      var socket = io();
-      $('form').submit(function () {
-        socket.emit('chat message', $('#m').val(), $('#username').val());
-        $('#m').val('');
-        return false;
+  <body>
+    <div class="header">
+      <label>Who dis?</label>
+      <input id="username" autocomplete="off" placeholder="Username" />
+      <label id="usernameErr">Gimme dat sweet sweet name</label>
+    </div>
+    <div id="messdiv">
+      <ul id="messages">
+        <li id="firstMessage">Welcome!</li>
+      </ul>
+    </div>
+    <form class="textboxForm" action="">
+      <input id="m" autocomplete="off" /><button id="sendButton">Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function() {
+        var socket = io();
+        $("#username").change(function() {
+          if (
+            $("#username")
+              .val()
+              .trim()
+          ) {
+            $("#usernameErr").text("");
+          } else {
+            $("#usernameErr").text("Gimme dat sweet sweet name");
+          }
+        });
+        $("form").submit(function() {
+          socket.emit("chat message", $("#m").val(), $("#username").val());
+          $("#m").val("");
+          return false;
+        });
+        socket.on("chat message", function(msg, usr) {
+          var date = new Date();
+          $("#messages").prepend(
+            $("<li>").text(usr + " (" + date.toLocaleTimeString() + "): " + msg)
+          );
+        });
+        socket.on("new connection", function(socket) {
+          var date = new Date();
+          $("#messages").prepend(
+            $("<li class='liMessage'>").text(
+              date.toLocaleTimeString() + ": Somebody joined. Ew."
+            )
+          );
+        });
+        socket.on("new disconnection", function(socket) {
+          var date = new Date();
+          $("#messages").prepend(
+            $("<li class='liMessage'>").text(
+              date.toLocaleTimeString() +
+                ": Somebody left. Finally there is some peace..."
+            )
+          );
+        });
       });
-      socket.on('chat message', function (msg, usr) {
-        var date = new Date();
-        $('#messages').prepend($('<li>').text(usr + " (" + date.toLocaleTimeString() + "): " + msg));
-      });
-      socket.on("new connection", function (socket) {
-        var date = new Date();
-        $('#messages').prepend($('<li>').text(date.toLocaleTimeString() + ": Somebody joined. Ew."));
-      });
-      socket.on("new disconnection", function (socket) {
-        var date = new Date();
-        $('#messages').prepend($('<li>').text(date.toLocaleTimeString() + ": Somebody left. Finally there is some peace..."));
-      });
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
