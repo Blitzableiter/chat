@@ -20,14 +20,9 @@ form.textboxForm input {
   border: 0;
   padding: 10px;
   width: 100%;
-  /* margin-right: .5%; */
 }
 
 form.textboxForm button {
-  /* width: 9%; */
-  /* background: #82e0ff; */
-  /* border: none; */
-  /* padding: 10px; */
   display: none;
 }
 
@@ -43,6 +38,12 @@ form.textboxForm button {
   padding: 5px;
   background-color: #8cce31;
   border-bottom: solid black 2px;
+}
+
+.headerImg {
+  float: right;
+  height: 20px;
+  width: 20px;
 }
 
 #messages {
@@ -64,7 +65,6 @@ form.textboxForm button {
   overflow: auto;
   width: 100%;
   margin-bottom: 50px;
-  /* height: 100px; */
 }
 
 #usernameErr {

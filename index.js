@@ -4,27 +4,36 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var favicon = require("serve-favicon");
 
+const _port = 3000;
+
+// routing to public folder
 app.use("/public", express.static("public"));
+// Use provided favicon.ico
 app.use(favicon(__dirname + "/favicon.ico"));
 
+// Route to index
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+// Listen to new connections sent by html
 io.on("connection", function(socket) {
   io.emit("new connection");
-  console.log("a user connected");
+  // console.log("a user connected");
 
+  // listen to disconnetion sent by html
   socket.on("disconnect", function() {
     io.emit("new disconnection");
-    console.log("user disconnected");
+    // console.log("user disconnected");
   });
 
+  // listen to chat message sent by html
   socket.on("chat message", function(msg, usr) {
     if (msg.trim() && usr.trim()) io.emit("chat message", msg, usr);
   });
 });
 
-http.listen(3000, function() {
-  console.log("listening on *:3000");
+// server runs on this port
+http.listen(_port, function() {
+  console.log("listening on *:" + _port);
 });
