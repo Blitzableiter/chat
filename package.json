@@ -1,7 +1,12 @@
 {
-  "name": "Chat",
+  "name": "chat",
+  "author": {
+    "name": "Max Rumford",
+    "url": "http://github.com/Blitzableiter"
+  },
   "version": "0.0.2",
   "description": "Chat Server and Client",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
     "path": "^0.12.7",

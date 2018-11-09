@@ -41,9 +41,19 @@ form.textboxForm button {
 }
 
 .headerImg {
-  float: right;
+  position: fixed;
+  right: 5px;
   height: 20px;
   width: 20px;
+
+  transition: all 0.2s;
+}
+
+.headerImg:hover {
+  height: 40px;
+  width: 40px;
+
+  transition: all 0.2s;
 }
 
 #messages {
