@@ -14,6 +14,14 @@
       <label>Who dis?</label>
       <input id="username" autocomplete="off" placeholder="Username" />
       <label id="usernameErr">Gimme dat sweet sweet name</label>
+      <a
+        href="https://www.paypal.me/MRumford"
+        target="_blank"
+        tabindex="-1"
+        title="Gimme your fuckin' money!"
+      >
+        <img class="headerImg" src="/public/lib/img/PayPal.png" />
+      </a>
     </div>
     <div id="messdiv">
       <ul id="messages">
@@ -23,9 +31,12 @@
     <form class="textboxForm" action="">
       <input id="m" autocomplete="off" /><button id="sendButton">Send</button>
     </form>
+    
+    <!-- server connection -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/public/lib/js/cornify.js"></script>
-    <script src="/public/lib/js/index-handling.js"></script>
+    
+    <!-- JQuery for i/o processing -->
+    <script src="/public/lib/js/jQuery-index.js"></script>
   </body>
 </html>
