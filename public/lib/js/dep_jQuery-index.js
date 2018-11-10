@@ -45,7 +45,7 @@ $(function() {
     );
   });
 
-  // A chat-window was opened: Send message to chat
+  // A chat-window was closed: Send message to chat
   socket.on("new disconnection", function(socket) {
     var date = new Date();
     $("#messages").prepend(
@@ -97,7 +97,7 @@ $(function() {
       g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
       b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
     // pad each with zeros and return
-    return "#" + padZero(r) + padZero(g) + padZero(b);
+    return "" + padZero(r) + padZero(g) + padZero(b);
   }
 
   /**
