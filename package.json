@@ -1,22 +1,28 @@
 {
-  "name": "chat",
-  "author": {
-    "name": "Max Rumford",
-    "url": "http://github.com/Blitzableiter"
-  },
+  "name": "theonetruechat",
   "version": "0.0.2",
-  "description": "Chat Server and Client",
-  "license": "MIT",
-  "engines": {
-    "node": "11.1.0"
-  },
-  "scripts": {
-    "start": "node index.js"
-  },
+  "description": "Chat server and client",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.16.4",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1"
-  }
+  },
+  "engines": {
+    "node": "10.13.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blitzableiter/chat.git"
+  },
+  "author": "Max Rumford",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Blitzableiter/chat/issues"
+  },
+  "homepage": "https://github.com/Blitzableiter/chat#readme"
 }

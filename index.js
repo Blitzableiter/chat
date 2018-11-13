@@ -4,7 +4,7 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var favicon = require("serve-favicon");
 
-const _port = 3000;
+const _port = 8000;
 
 // routing to public folder
 app.use("/public", express.static("public"));
@@ -34,6 +34,7 @@ io.on("connection", function(socket) {
 });
 
 // server runs on this port
-http.listen(_port, function() {
-  console.log("listening on *:" + _port);
-});
+let port = process.env.PORT;
+if (port == null || port == "") port = _port;
+
+app.listen(port);
