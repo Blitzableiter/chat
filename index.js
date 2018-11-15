@@ -1,13 +1,19 @@
-var app = require("express")();
 var express = require("express");
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
-var favicon = require("serve-favicon");
+var http = require("http");
+var app = express();
+var server = http.createServer(app);
 
+// var app = require("express")();
+// var http = require("http").Server(app);
+var io = require("socket.io").listen(server);
+
+var favicon = require("serve-favicon");
 const _port = 8000;
 
+// routing to node_modules
+// app.use("/node_modules", express.static(__dirname + "/scripts"));
 // routing to public folder
-app.use("/public", express.static("public"));
+app.use("/public", express.static(__dirname + "/public"));
 // Use provided favicon.ico
 app.use(favicon(__dirname + "/favicon.ico"));
 
@@ -37,4 +43,4 @@ io.on("connection", function(socket) {
 let port = process.env.PORT;
 if (port == null || port == "") port = _port;
 
-app.listen(port);
+server.listen(port);
