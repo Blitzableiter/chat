@@ -3,11 +3,10 @@ var http = require("http");
 var app = express();
 var server = http.createServer(app);
 
-// var app = require("express")();
-// var http = require("http").Server(app);
 var io = require("socket.io").listen(server);
 
 var favicon = require("serve-favicon");
+
 const _port = 8000;
 
 // routing to node_modules

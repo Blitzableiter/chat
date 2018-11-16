@@ -52,12 +52,11 @@ function sendMessage(e) {
 /**
  * @function
  * @name addMessageToMessages
- * @description Adds a message (<li>) to the top of the messages on screen
- * @param {String} message message to be added to the list of messages
+ * @description Adds an HTMLElement to the top of the messages on screen
+ * @param {HTMLElement} message HTMLElement to be prepended to the list of messages
  */
 function addMessageToMessages(message) {
-  const currentMessages = document.getElementById("messages").innerHTML;
-  document.getElementById("messages").innerHTML = message + currentMessages;
+  document.getElementById("messages").prepend(message);
 }
 
 /**
@@ -124,41 +123,100 @@ function padZero(str, len = 2) {
   var zeros = new Array(len).join("0");
   return (zeros + str).slice(-len);
 }
+/**
+ * @function
+ * @name escapeHtml
+ * @description Escapes HTML-tags so they aren't processed by the DOM
+ * @param {string} text HTML-text to be escaped
+ * @returns {string} text escaped HTML-text
+ */
+function escapeHtml(text) {
+  return (
+    text
+      // .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;")
+  );
+}
+
+function createAnchor(href, text) {
+  var anchor = document.createElement("a");
+  anchor.target = "_blank";
+  anchor.rel = "external";
+  anchor.href = href;
+  anchor.innerHTML = text || href;
+  return anchor;
+}
 
 //// Socket-Listeners
 // Receiving Chat-Message from server
 socket.on("chat message", function(msg, usr) {
-  const date = new Date().toLocaleDateString();
+  const date = new Date().toLocaleTimeString();
   const bgcolor = intToRGB(hashCode(usr));
   const textcolor = invertColor(bgcolor);
   const inlineStyling = `background: #${bgcolor}; color: #${textcolor};`;
-  const newMsg = `
-  <li style="${inlineStyling}">
-    ${usr} (${date}): ${msg}
-  </li>
-  `;
+
+  // Escape signs so they aren't interpreted by the DOM
+  msg = escapeHtml(msg);
+
+  // const regex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+  const regex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?\=\&\;\.-]*)*\/?/;
+
+  // initialize anchors for scope reasons
+  var anchors = [];
+
+  // Message contains URLs that are to be transformed into an anchor
+  if (msg.match(regex)) {
+    var [...possibleAnchors] = regex.exec(msg)[0].split(" "); // spread words (including URLs) into array
+    for (i = 0; i < possibleAnchors.length; i++) {
+      if (!possibleAnchors[i].match(regex)) possibleAnchors.splice(i, 1); // eliminate non-URL elements in array
+    }
+    // returns an array of only anchor-HTML-elements
+    anchors = possibleAnchors.map(item => {
+      // item = createAnchor(item); // make the URL into an anchor-HTML-elements
+      // console.log(item);
+      msg.replace(item, createAnchor(item));
+      return item;
+    });
+  }
+
+  console.log(msg);
+  // console.table(msg);
+
+  // msg = msg.replace(regex);
+
+  // var nth = 0;
+  // for (ind = 1; ind <= anchors.length; ind++) {
+  //   msg = msg.replace(regex, function(match, i, original) {
+  //     nth++;
+  //     console.log(nth, ind);
+  //     return nth === ind ? anchors[ind - 1] : match;
+  //   });
+  // }
+
+  var newMsg = document.createElement("li");
+  newMsg.style = inlineStyling;
+  newMsg.innerHTML = `${usr} (${date}): ${msg}`;
+  console.log(newMsg);
+
   addMessageToMessages(newMsg);
 });
 
 // New chat-window was opened: Send message to chat
 socket.on("new connection", function(socket) {
-  const date = new Date().toLocaleDateString();
-  const newMsg = `
-  <li class="liMessage">
-  ${date}: Somebody joined. Ew.
-  </li>
-  `;
+  const date = new Date().toLocaleTimeString();
+  var newMsg = document.createElement("li");
+  newMsg.innerHTML = `${date}: Somebody joined. Ew.`;
   addMessageToMessages(newMsg);
 });
 
 // A chat-window was closed: Send message to chat
 socket.on("new disconnection", function(socket) {
-  const date = new Date().toLocaleDateString();
-  const newMsg = `
-  <li class="liMessage">
-  ${date}: Somebody left. Finally there is some peace...
-  </li>
-  `;
+  const date = new Date().toLocaleTimeString();
+  var newMsg = document.createElement("li");
+  newMsg.innerHTML = `${date}: Somebody left. Finally there is some peace...`;
   addMessageToMessages(newMsg);
 });
 
