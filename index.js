@@ -39,7 +39,8 @@ io.on("connection", function(socket) {
 });
 
 // server runs on this port
-let port = process.env.PORT;
-if (port == null || port == "") port = _port;
+let port = process.env.PORT || _port;
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
