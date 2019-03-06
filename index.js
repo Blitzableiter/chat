@@ -3,11 +3,10 @@ var http = require("http");
 var app = express();
 var server = http.createServer(app);
 
-// var app = require("express")();
-// var http = require("http").Server(app);
 var io = require("socket.io").listen(server);
 
 var favicon = require("serve-favicon");
+
 const _port = 8000;
 
 // routing to node_modules
@@ -40,7 +39,8 @@ io.on("connection", function(socket) {
 });
 
 // server runs on this port
-let port = process.env.PORT;
-if (port == null || port == "") port = _port;
+let port = process.env.PORT || _port;
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
