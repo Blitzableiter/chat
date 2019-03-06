@@ -7,14 +7,14 @@ const inputForm = document.getElementById("inputForm");
 
 /**
  * @function
- * @name setInnerHTMLId
- * @description set element with _id's innerHTML to given _innerHTML
+ * @name setTextContentById
+ * @description set element with _id's textContent to given _textContent
  * @param {String} _id elementById to be set
- * @param {Strng} _innerHTML value the given element is to be set to
+ * @param {Strng} _textContent value the given element is to be set to
  */
-function setInnerHTMLId(_id, _innerHTML) {
+function setTextContentById(_id, _textContent) {
   if (document.getElementById(_id)) {
-    document.getElementById(_id).innerHTML = _innerHTML;
+    document.getElementById(_id).textContent = _textContent;
   }
 }
 
@@ -26,9 +26,9 @@ function setInnerHTMLId(_id, _innerHTML) {
  */
 function userNameChange() {
   if (!document.getElementById("username").value.trim()) {
-    setInnerHTMLId("usernameErr", "Gimme dat sweet sweet name");
+    setTextContentById("usernameErr", "Gimme dat sweet sweet name");
   } else {
-    setInnerHTMLId("usernameErr", "");
+    setTextContentById("usernameErr", "");
   }
 }
 
@@ -146,7 +146,7 @@ function createAnchor(href, text) {
   anchor.target = "_blank";
   anchor.rel = "external";
   anchor.href = href;
-  anchor.innerHTML = text || href;
+  anchor.textContent = text || href;
   return anchor;
 }
 
@@ -198,7 +198,7 @@ socket.on("chat message", function(msg, usr) {
 
   var newMsg = document.createElement("li");
   newMsg.style = inlineStyling;
-  newMsg.innerHTML = `${usr} (${date}): ${msg}`;
+  newMsg.textContent = `${usr} (${date}): ${msg}`;
   console.log(newMsg);
 
   addMessageToMessages(newMsg);
@@ -208,7 +208,7 @@ socket.on("chat message", function(msg, usr) {
 socket.on("new connection", function(socket) {
   const date = new Date().toLocaleTimeString();
   var newMsg = document.createElement("li");
-  newMsg.innerHTML = `${date}: Somebody joined. Ew.`;
+  newMsg.textContent = `${date}: Somebody joined. Ew.`;
   addMessageToMessages(newMsg);
 });
 
@@ -216,7 +216,7 @@ socket.on("new connection", function(socket) {
 socket.on("new disconnection", function(socket) {
   const date = new Date().toLocaleTimeString();
   var newMsg = document.createElement("li");
-  newMsg.innerHTML = `${date}: Somebody left. Finally there is some peace...`;
+  newMsg.textContent = `${date}: Somebody left. Finally there is some peace...`;
   addMessageToMessages(newMsg);
 });
 
